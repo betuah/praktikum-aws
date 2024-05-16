@@ -4,12 +4,11 @@
 
 #### Environment Variable
 
-Course order service need environment variable to comunicate with other AWS services like dynamodb. You need create an IAM user to grand access for dynamodb. The following below is a list of the environments.
 
 | KEY | Required | Description  |
 |--|--|--|
-| **AWS_TABLE** | ***true*** | AWS access key to access the dynamodb |
-|**AWS_BUCKET_NAME**| ***true*** | AWS secret key to access the dynamodb |
+| **AWS_TABLE** | ***true*** | Dynamodb table name |
+|**AWS_BUCKET_NAME**| ***true*** | S3 Bucket name |
 |**AWS_REGION**| ***true*** | AWS region that service you used |
 
 #### Run the server
