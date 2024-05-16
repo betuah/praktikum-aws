@@ -1,21 +1,6 @@
 
 
-# Course Order Service
-Course order service is a part of course app API backend services to handle course order functionality.
-
-## TechStack
-
-Course Order uses a number of technology stack to work properly:
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework 
-- [Mocha] - JavaScript test framework running on Node.js and in the browser
-- [dynamodb] - Fast, flexible NoSQL database service for single-digit millisecond performance at any scale by AWS
-
-## API Endpoint
-
-You can check the API endpoint documentation in [here]
-
-## Installation and setup
+# Praktikum AWS
 
 #### Environment Variable
 
@@ -23,25 +8,9 @@ Course order service need environment variable to comunicate with other AWS serv
 
 | KEY | Required | Description  |
 |--|--|--|
-| **AWS_ACCESS_KEY** | ***true*** | AWS access key to access the dynamodb |
-|**AWS_SECRET_KEY**| ***true*** | AWS secret key to access the dynamodb |
-|**AWS_DYNAMODB_TABLE**| ***true*** | table order name in dynamodb |
+| **AWS_TABLE** | ***true*** | AWS access key to access the dynamodb |
+|**AWS_BUCKET_NAME**| ***true*** | AWS secret key to access the dynamodb |
 |**AWS_REGION**| ***true*** | AWS region that service you used |
-
-> **Note** : If your want to run env variable in local machine, you need to create **.env.production** and **.env.testing** by filling the key and value in the table above
-
-#### Run Unit Test
-You can easily run unit tests for Course Order Services for production test with the following command:
-
-```sh
-npm install
-npm run test 
-```
-these command will be generate `test-result.xml` file in **report** folder with JUnit format. If you want to show the testing result in the terminal, just following this command below :
-```sh
-npm install
-npm run testdev
-```
 
 #### Run the server
 Course Order requires [Node.js](https://nodejs.org/) v16+ to run.
@@ -51,75 +20,6 @@ Install the dependencies and start the server.
 npm install
 npm run start
 ```
-
-### Run with Docker
-
-Course order is very easy to install and deploy in a Docker container.
-By default, the Docker will expose port 8000 for production and port 9000 for testing, When ready, simply use the Dockerfile to build the image.
-
-```sh
-docker build -t <name_tag> .
-```
-You can change `<name_tag>` with image name whatever you want. Let me gift you some example :
-```sh
-docker build -t course-order:latest .
-```
-or if you want to push the image to some docker registry repository like ECR just change the `<name_tag>` with the repository url, for example :
-
-```sh
-docker build AWS_ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/course-order:latest .
-```
-Once done, you can run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 8080 of the host to port 8000 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8080:8000 --name=course-order-container <name_tag>
-```
-
-Verify the API by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8080
-```
-
-### Deploy to AWS Beanstalk
-You can deploy to aws beanstalk if you already created the image and upload it to the docker registry like ECR. First step to deploy your image into aws beanstalk, you need to create Dockerrun.aws.json file in this repository with this following json format:
-```json
-{
-   "AWSEBDockerrunVersion": "1",
-   "Authentication": {
-      "Bucket": "YOUR_BUCKET", 
-      "Key": "YOUR_CONFIG_FILE_IN_BUCKET"
-   },
-   "Image": {
-      "Name": "YOUR_IMAGE_REPOSITORY"
-   },
-   "Ports": [
-      {
-         "ContainerPort": 8000,
-         "HostPort": 80
-      }
-   ]
-}
-```
-Description:
-- AWSEBDockerrunVersion is dockerrun version for create the container, 1 is mean for single container and 2 is for multi container.
-- Authentication is use for authenticate to private docker registry like ECR.
-- Authentication > bucket is where you put the dkcfg (Docker config) file for the credential.
-- Authentication > key is the credential file name in the selected bucket, for example, config.json or dkcfg.
-- Image is what you image url on ECR or other docker registry
-
-This is the example of config.json file for ECR credential:
-```json
-{
-  "auths": {
-    "YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com": {
-      "auth": "YOUR_ECR_AUTH_TOKEN"
-    }
-  }
-}
-```
-> **Note:** Dont forget to give permission aws beanstalk to get object from S3. You can create the ECR auth token with aws cli command `aws ecr get-login-password --region {{ECR_REGION}}` and copy the result to config.json file.
 
 ## License
 
